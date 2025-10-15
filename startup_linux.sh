@@ -12,7 +12,7 @@ if [ -z "$GEMINI_API_KEY" ]; then
 fi
 
 echo "Starting Streamlit application..."
-python3 -m streamlit run app.py --server.port 8501 --browser.gatherUsageStats false &
+python3 -m streamlit run app.py --server.runOnSave true --server.port 8501 --browser.gatherUsageStats false &
 STREAMLIT_PID=$!
 echo "Streamlit app is running (PID: $STREAMLIT_PID). Opening in browser..."
 sleep 5 # Give Streamlit a moment to start

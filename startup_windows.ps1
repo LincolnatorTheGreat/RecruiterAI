@@ -10,7 +10,7 @@ if (-not $env:GEMINI_API_KEY) {
 }
 
 Write-Host "Starting Streamlit application..." -ForegroundColor Green
-Start-Process python -ArgumentList "-m", "streamlit", "run", "app.py", "--server.port", "8501", "--browser.gatherUsageStats", "false" -NoNewWindow
+Start-Process python -ArgumentList "-m", "streamlit", "run", "app.py", "--server.port", "8501", "--server.runOnSave", "true", "--browser.gatherUsageStats", "false" -NoNewWindow
 Write-Host "Streamlit app is running. Opening in browser..." -ForegroundColor Green
 Start-Sleep -Seconds 5 # Give Streamlit a moment to start
 Start-Process "http://localhost:8501"
