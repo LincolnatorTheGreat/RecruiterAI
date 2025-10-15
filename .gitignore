@@ -34,6 +34,7 @@
 /candidate_inputs/jd/old_files/*
 /candidate_inputs/resume/*
 /candidate_inputs/resume/old_files/*
+/candidate_inputs/resume/active_resumes/*
 
 !/candidate_inputs/
 !/candidate_inputs/.gitkeep
@@ -43,6 +44,8 @@
 !/candidate_inputs/jd/old_files/.gitkeep
 !/candidate_inputs/resume/
 !/candidate_inputs/resume/.gitkeep
+!/candidate_inputs/resume/active_resumes/
+!/candidate_inputs/resume/active_resumes/.gitkeep
 !/candidate_inputs/resume/old_files/
 !/candidate_inputs/resume/old_files/.gitkeep
 
