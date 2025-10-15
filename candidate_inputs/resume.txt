@@ -1,0 +1,27 @@
+Jordan Lee
+San Francisco, CA | jordan.lee@email.com | (555) 123-4567 | linkedin.com/in/jordanlee-eng
+
+Professional Summary:
+Innovative Controls Engineer with 7+ years in advanced engine technologies, specializing in free-piston linear generators and software-driven motion systems. Experienced in prototyping opposed-piston designs for clean energy applications. Passionate about fuel-flexible solutions for decarbonization.
+
+Experience:
+Lead Controls Engineer, EcoPower Innovations (2021-Present)
+- Engineered software control systems for free-piston linear generators, enabling precise oscillation of opposed pistons without mechanical linkages, achieving 53% efficiency in hydrogen-fueled prototypes.
+- Implemented real-time algorithms in Python/MATLAB to manage piston dynamics and low-temperature combustion, reducing emissions by 95% in biogas tests.
+- Led prototyping of modular free-piston units, scaling from lab-scale to 500 kW systems with adaptive fuel handling.
+
+Systems Engineer, GreenTech Labs (2018-2021)
+- Designed and simulated free-piston assemblies using ANSYS, focusing on thermal management and electromagnetic integration for linear power extraction.
+- Developed CAD models for opposed-piston components and control software for multi-fuel operation (natural gas, ammonia), ensuring reliable dispatchability.
+- Conducted validation tests on low-maintenance free-piston prototypes, optimizing for >50% efficiency and near-zero NOx outputs.
+
+Education:
+MS in Mechanical Engineering, Stanford University (2018) – Thesis: Software-Controlled Free-Piston Dynamics for Clean Combustion
+BS in Mechanical Engineering, UC Berkeley (2016)
+
+Skills:
+- Tools: MATLAB/Simulink, Python, ANSYS, SolidWorks
+- Domains: Free-piston engines, linear generators, combustion control, sustainable fuels (H2, biogas, ammonia)
+- Soft: Agile project management, cross-team collaboration
+
+Interests: Electric vehicle tech, climate tech startups.

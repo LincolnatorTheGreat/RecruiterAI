@@ -1,0 +1,10 @@
+Mainspring Energy's Linear Generator is a cutting-edge free-piston linear generator delivering clean, dispatchable electricity through advanced piston control.
+
+Key Features:
+- Superior efficiency (>50%) from free-piston architecture: Dual opposed pistons oscillate linearly without crankshafts or mechanical constraints, powered by software-managed low-temperature combustion in a central chamber.
+- Fuel agility: Seamlessly handles natural gas, biogas, hydrogen, ammonia, and beyond, with dynamic compression via real-time piston positioning.
+- Minimal emissions: Achieves near-zero NOx and particulates through precise, complete fuel-lean reactions enabled by free-piston freedom.
+- Flexible scaling: Modular designs from 230 kW stacks to multi-MW installations for resilient, onsite power.
+- Streamlined operations: Reduced components (pistons + linear alternators) minimize maintenance, with software ensuring reliability and grid responsiveness.
+
+Join us in redefining clean power with free-piston breakthroughs for a sustainable grid.
