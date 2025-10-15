@@ -1,0 +1,14 @@
+Dear Jane Smith,
+
+I was reviewing your profile and immediately saw a strong alignment with Mainspring Energy's free-piston linear generator innovation—your expertise in software-driven motion systems, like opposed-piston linear generators, would be a game-changer for our Staff Mechanical Engineer - Rings role.
+
+Key aspects from your experience that resonate:
+- Developed real-time control algorithms for opposed-piston linear generators
+- Optimized low-temperature combustion using Python and Simulink
+
+At Mainspring, we're scaling opposed-piston systems for fuel-flexible, >50% efficient power, where dual opposed pistons oscillate linearly without mechanical constraints. I'd love to discuss how your background in free-piston linear generator control and optimization could drive our next-gen prototypes and help us achieve minimal emissions through precise, software-managed low-temperature combustion. Available for a quick 15-minute chat?
+
+Warm regards,
+[Your Dad's Name]
+Technical Recruiter
+Mainspring Energy

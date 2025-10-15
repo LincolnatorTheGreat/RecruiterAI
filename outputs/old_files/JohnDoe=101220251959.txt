@@ -1,0 +1,14 @@
+Dear John Doe,
+
+I was reviewing your profile and immediately saw a strong alignment with Mainspring Energy's free-piston linear generator innovation—your expertise in **free-piston prototype design**, like **dual opposed pistons oscillating linearly without mechanical constraints**, would be a game-changer for our **Staff Mechanical Engineer - Rings** role.
+
+Key aspects from your experience that resonate:
+- Your work assisting in **designing free-piston prototypes for hydrogen fuel systems** directly relates to our focus on advanced piston assemblies for fuel-flexible power.
+- Your experience performing **thermal analysis using MATLAB** is valuable as we optimize ring and piston designs within extreme multiphysical environments.
+
+At Mainspring, we're scaling opposed-piston systems for fuel-flexible, >50% efficient power, achieving near-zero NOx emissions through precise, complete fuel-lean reactions. I'd love to discuss how your background in **free-piston generator development, particularly with hydrogen fuel compatibility**, could drive our next-gen prototypes. Available for a quick 15-minute chat?
+
+Warm regards,
+[Your Dad's Name]
+Technical Recruiter
+Mainspring Energy

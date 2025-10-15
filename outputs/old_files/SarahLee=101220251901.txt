@@ -1,0 +1,14 @@
+Dear Sarah Lee,
+
+I was reviewing your profile and immediately saw a strong alignment with Mainspring Energy's free-piston linear generator innovation—your expertise in software for piston motion control, critical to achieving ultra-low emissions via controlled dynamics, would be a game-changer for our Staff Mechanical Engineer - Rings role.
+
+Key aspects from your experience that resonate:
+- Built software for piston motion control in free-piston linear generators.
+- Integrated Python scripts for adaptive compression ratios.
+
+At Mainspring, we're scaling opposed-piston systems for fuel-flexible, >50% efficient power. I'd love to discuss how your background in software-driven optimization of free-piston dynamics, which directly impacts the complex operating conditions for our sealing ring and piston assemblies, could drive our next-gen prototypes. Available for a quick 15-minute chat?
+
+Warm regards,
+[Your Dad's Name]
+Technical Recruiter
+Mainspring Energy
