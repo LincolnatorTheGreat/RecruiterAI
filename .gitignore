@@ -49,10 +49,10 @@
 !/candidate_inputs/resume/old_files/
 !/candidate_inputs/resume/old_files/.gitkeep
 
-/output/*
-/output/old_files/*
+/outputs/*
+/outputs/old_files/*
 
-!/output/
-!/output/.gitkeep
-!/output/old_files/
-!/output/old_files/.gitkeep
+!/outputs/
+!/outputs/.gitkeep
+!/outputs/old_files/
+!/outputs/old_files/.gitkeep
