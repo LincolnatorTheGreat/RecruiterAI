@@ -126,5 +126,5 @@ def get_tech_library_content():
     files = [f for f in os.listdir(tech_folder) if f.endswith('.md') and os.path.isfile(os.path.join(tech_folder, f)) and f != '.gitkeep']
     content = ""
     for f in files:
-        content += read_.read_file(os.path.join(tech_folder, f)) + "\n\n"
+        content += read_file(os.path.join(tech_folder, f)) + "\n\n"
     return content.strip()
