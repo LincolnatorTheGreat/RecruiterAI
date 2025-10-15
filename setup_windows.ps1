@@ -4,10 +4,28 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-# Install Python dependencies
+# Create a virtual environment
+Write-Host "Creating virtual environment..." -ForegroundColor Green
+python -m venv recruiterAIhost
+
+# Activate the virtual environment and install dependencies
 Write-Host "Installing Python dependencies..." -ForegroundColor Green
-python -m pip install --upgrade pip
-python -m pip install streamlit google-generativeai PyPDF2 pypandoc
+.\recruiterAIhost\Scripts\Activate.ps1
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# API Key setup
+$apiKey = [System.Environment]::GetEnvironmentVariable('GEMINI_API_KEY_RECAI', 'User')
+if ($apiKey) {
+    $response = Read-Host "GEMINI_API_KEY_RECAI is already set. Do you want to change it? (y/n)"
+    if ($response -eq 'y' -or $response -eq 'yes') {
+        $newApiKey = Read-Host "Enter your new Gemini API key"
+        setx GEMINI_API_KEY_RECAI $newApiKey
+    }
+} else {
+    $newApiKey = Read-Host "Enter your Gemini API key"
+    setx GEMINI_API_KEY_RECAI $newApiKey
+}
 
 # Install Pandoc
 Write-Host "Installing Pandoc..." -ForegroundColor Green

@@ -1,8 +1,11 @@
-# Set GEMINI_API_KEY (replace with your actual key)
-$env:GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"
+# Activate the virtual environment
+.\recruiterAIhost\Scripts\Activate.ps1
 
-if (-not $env:GEMINI_API_KEY -or $env:GEMINI_API_KEY -eq "YOUR_GEMINI_API_KEY_HERE") {
-    Write-Host "ERROR: GEMINI_API_KEY is not set. Please edit this script and replace 'YOUR_GEMINI_API_KEY_HERE' with your actual Gemini API key." -ForegroundColor Red
+# Set GEMINI_API_KEY from GEMINI_API_KEY_RECAI
+$env:GEMINI_API_KEY = [System.Environment]::GetEnvironmentVariable('GEMINI_API_KEY_RECAI', 'User')
+
+if (-not $env:GEMINI_API_KEY) {
+    Write-Host "ERROR: GEMINI_API_KEY is not set. Please run the setup script to set it." -ForegroundColor Red
     exit 1
 }
 

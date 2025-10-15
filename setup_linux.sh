@@ -7,10 +7,35 @@ then
     exit 1
 fi
 
-# Install Python dependencies
+# Create a virtual environment
+echo "Creating virtual environment..."
+python3 -m venv recruiterAIhost
+
+# Activate the virtual environment and install dependencies
+source recruiterAIhost/bin/activate
 echo "Installing Python dependencies..."
-python3 -m pip install --upgrade pip
-python3 -m pip install streamlit google-generativeai PyPDF2 pypandoc
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Deactivate the virtual environment
+deactivate
+
+# API Key setup
+if [ -n "$GEMINI_API_KEY_RECAI" ]; then
+    read -p "GEMINI_API_KEY_RECAI is already set. Do you want to change it? (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        read -p "Enter your new Gemini API key: " api_key
+        export GEMINI_API_KEY_RECAI="$api_key"
+        echo 'export GEMINI_API_KEY_RECAI="'$api_key'"' >> ~/.bashrc
+        echo 'export GEMINI_API_KEY_RECAI="'$api_key'"' >> ~/.zshrc
+    fi
+elif [ -z "$GEMINI_API_KEY_RECAI" ]; then
+    read -p "Enter your Gemini API key: " api_key
+    export GEMINI_API_KEY_RECAI="$api_key"
+    echo 'export GEMINI_API_KEY_RECAI="'$api_key'"' >> ~/.bashrc
+    echo 'export GEMINI_API_KEY_RECAI="'$api_key'"' >> ~/.zshrc
+fi
 
 # Install Pandoc
 echo "Installing Pandoc..."

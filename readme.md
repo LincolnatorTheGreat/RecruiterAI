@@ -46,13 +46,12 @@ Generate Button -> Disable UI -> Fill Active (5 recent) -> Archive Old Letters -
 ```
 
 ## Installation and Setup
-1. **Dependencies**: See section below. Install with `pip install -r requirements.txt` (create file with list).
-2. **API Key**: Set `GEMINI_API_KEY` env var in PowerShell: `$env:GEMINI_API_KEY = "your_key"`.
-3. **Folders**: Run PowerShell command in root:
-   ```
-   mkdir pages, candidate_inputs\jd\old_files, candidate_inputs\resume\old_files, candidate_inputs\resume\active_resumes, static_assets\message_template\old_files, static_assets\system_prompt\old_files, static_assets\tech_library\old_files, outputs\old_files
-   ```
-4. **Run**: `streamlit run app.py`.
+1. **Prerequisites**: Make sure you have Python 3.x installed.
+2. **Run Setup Script**:
+    - For Linux, run: `bash setup_linux.sh`
+    - For Windows, run: `powershell.exe -ExecutionPolicy Bypass -File .\setup_windows.ps1`
+   This will create a virtual environment, install the required dependencies from `requirements.txt`, prompt you to set your `GEMINI_API_KEY_RECAI`, and create a desktop shortcut.
+3. **Run**: Use the desktop shortcut or run the appropriate startup script.
 
 ## Usage
 - Home: Upload JD (one), resumes (multiple). Generate batch. Copy/remove as needed.
@@ -60,9 +59,7 @@ Generate Button -> Disable UI -> Fill Active (5 recent) -> Archive Old Letters -
 - Maintenance: Add prints for debug. Upgrade Streamlit/Gemini via pip.
 
 ## Dependencies
-- streamlit==1.30.0 (UI)
-- google-generativeai==0.3.2 (Gemini API)
-- PyPDF2==3.0.1 (PDF reading)
+Dependencies are listed in the `requirements.txt` file.
 
 ## Folder Structure
 - `app.py`: Home page.
@@ -93,3 +90,4 @@ Generate Button -> Disable UI -> Fill Active (5 recent) -> Archive Old Letters -
 - Errors: Read tracebacks bottom-up. Google "Streamlit [error]".
 
 For questions, add issues if on GitHub. Project created October 12, 2025.
+

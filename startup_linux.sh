@@ -1,10 +1,13 @@
 #!/bin/bash
 
-# Set GEMINI_API_KEY (replace with your actual key)
-export GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"
+# Activate the virtual environment
+source recruiterAIhost/bin/activate
 
-if [ -z "$GEMINI_API_KEY" ] || [ "$GEMINI_API_KEY" == "YOUR_GEMINI_API_KEY_HERE" ]; then
-    echo "ERROR: GEMINI_API_KEY is not set. Please edit this script and replace 'YOUR_GEMINI_API_KEY_HERE' with your actual Gemini API key."
+# Set GEMINI_API_KEY from GEMINI_API_KEY_RECAI
+export GEMINI_API_KEY="$GEMINI_API_KEY_RECAI"
+
+if [ -z "$GEMINI_API_KEY" ]; then
+    echo "ERROR: GEMINI_API_KEY is not set. Please run the setup script to set it."
     exit 1
 fi
 
