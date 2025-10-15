@@ -1,4 +1,3 @@
-
 import datetime
 import re
 import os
@@ -43,7 +42,7 @@ def read_file(file_path):
         return f"Error reading {file_path}: {e}"
 
 def get_latest_file(folder):
-    files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
+    files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f != '.gitkeep']
     if not files:
         return None
     return os.path.join(folder, max(files, key=lambda f: os.path.getmtime(os.path.join(folder, f))))
@@ -88,6 +87,8 @@ def archive_all_files_in_folder(folder_path):
     os.makedirs(old_folder, exist_ok=True)
     
     for f in os.listdir(folder_path):
+        if f == '.gitkeep':
+            continue
         file_path = os.path.join(folder_path, f)
         if os.path.isfile(file_path): # Only process files, not subdirectories
             move_to_old(file_path, old_folder)
@@ -109,23 +110,21 @@ def process_and_display_files(folder_path, file_type):
     os.makedirs(old_folder, exist_ok=True)
 
     # Get all .md files in the folder
-    md_files = sorted([f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f.endswith('.md')],
+    md_files = sorted([f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f.endswith('.md') and f != '.gitkeep'],
                       key=lambda f: os.path.getmtime(os.path.join(folder_path, f)), reverse=True)
     return md_files
 def archive_old_letters():
     OUTPUT_FOLDER = "outputs"
     OLD_OUTPUTS = os.path.join(OUTPUT_FOLDER, "old_files")
     os.makedirs(OLD_OUTPUTS, exist_ok=True)
-    old_letters = [f for f in os.listdir(OUTPUT_FOLDER) if f.endswith('.txt') and os.path.isfile(os.path.join(OUTPUT_FOLDER, f))]
+    old_letters = [f for f in os.listdir(OUTPUT_FOLDER) if f.endswith('.txt') and os.path.isfile(os.path.join(OUTPUT_FOLDER, f)) and f != '.gitkeep']
     for old in old_letters:
         shutil.move(os.path.join(OUTPUT_FOLDER, old), os.path.join(OLD_OUTPUTS, old))
 
 def get_tech_library_content():
     tech_folder = os.path.join("static_assets", "tech_library")
-    files = [f for f in os.listdir(tech_folder) if f.endswith('.md') and os.path.isfile(os.path.join(tech_folder, f))]
+    files = [f for f in os.listdir(tech_folder) if f.endswith('.md') and os.path.isfile(os.path.join(tech_folder, f)) and f != '.gitkeep']
     content = ""
     for f in files:
-        content += read_file(os.path.join(tech_folder, f)) + "\n\n"
+        content += read_.read_file(os.path.join(tech_folder, f)) + "\n\n"
     return content.strip()
-
-

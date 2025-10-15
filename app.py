@@ -14,6 +14,8 @@ def load_letters_into_session_state():
         # Get all .txt files in the outputs folder, excluding the old_files subfolder
         all_output_files = []
         for f in os.listdir(OUTPUT_FOLDER):
+            if f == '.gitkeep':
+                continue
             file_path = os.path.join(OUTPUT_FOLDER, f)
             if os.path.isfile(file_path) and file_path.endswith('.txt') and not file_path.startswith(OLD_OUTPUTS + os.sep):
                 all_output_files.append(file_path)
@@ -153,7 +155,7 @@ if resume_files:
 st.markdown("---")
 st.markdown("**Used resumes ready to be regenerated:**")
 active_folder = os.path.join(resume_folder, "active_resumes")
-active_resumes = sorted([f for f in os.listdir(active_folder) if os.path.isfile(os.path.join(active_folder, f))],
+active_resumes = sorted([f for f in os.listdir(active_folder) if os.path.isfile(os.path.join(active_folder, f)) and f != '.gitkeep'],
                         key=lambda f: os.path.getmtime(os.path.join(active_folder, f)))  # Oldest first
 
 if active_resumes:
@@ -172,7 +174,7 @@ else:
 # Display Regular Resumes
 st.markdown("---")
 st.markdown("**Available Resumes:**")
-regular_resumes = sorted([f for f in os.listdir(resume_folder) if os.path.isfile(os.path.join(resume_folder, f)) and f.endswith('.md')],
+regular_resumes = sorted([f for f in os.listdir(resume_folder) if os.path.isfile(os.path.join(resume_folder, f)) and f.endswith('.md') and f != '.gitkeep'],
                          key=lambda f: os.path.getmtime(os.path.join(resume_folder, f)), reverse=True)  # Newest first
 
 if regular_resumes:
@@ -223,9 +225,9 @@ if st.session_state.generating:
         active_folder = os.path.join(resume_folder, "active_resumes")
         os.makedirs(active_folder, exist_ok=True)
         
-        active_resumes = [f for f in os.listdir(active_folder) if os.path.isfile(os.path.join(active_folder, f))]
+        active_resumes = [f for f in os.listdir(active_folder) if os.path.isfile(os.path.join(active_folder, f)) and f != '.gitkeep']
         while len(active_resumes) < 5:
-            regular_resumes = [f for f in os.listdir(resume_folder) if os.path.isfile(os.path.join(resume_folder, f)) and f.endswith('.md')]
+            regular_resumes = [f for f in os.listdir(resume_folder) if os.path.isfile(os.path.join(resume_folder, f)) and f.endswith('.md') and f != '.gitkeep']
             if not regular_resumes:
                 break
             # Most recent

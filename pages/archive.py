@@ -10,7 +10,7 @@ def display_folder_contents(folder_path, title):
         st.info(f"No files found in {folder_path}")
         return
 
-    files = sorted([f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))])
+    files = sorted([f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f != '.gitkeep'])
 
     if files:
         for f in files:
