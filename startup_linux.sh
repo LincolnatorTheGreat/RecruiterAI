@@ -3,11 +3,17 @@
 # Activate the virtual environment
 source recruiterAIhost/bin/activate
 
-# Set GEMINI_API_KEY from GEMINI_API_KEY_RECAI
-export GEMINI_API_KEY="$GEMINI_API_KEY_RECAI"
+# Check if the virtual environment is activated
+if [ -z "$VIRTUAL_ENV" ]; then
+    echo "ERROR: Python virtual environment is not activated. Please run the setup script."
+    exit 1
+fi
 
-if [ -z "$GEMINI_API_KEY" ]; then
-    echo "ERROR: GEMINI_API_KEY is not set. Please run the setup script to set it."
+# Set GEMINI_API_KEY_RECAI from GEMINI_API_KEY_RECAI
+export GEMINI_API_KEY_RECAI="$GEMINI_API_KEY_RECAI"
+
+if [ -z "$GEMINI_API_KEY_RECAI" ]; then
+    echo "ERROR: GEMINI_API_KEY_RECAI is not set. Please run the setup script to set it."
     exit 1
 fi
 

@@ -1,6 +1,12 @@
 # Activate the virtual environment
 .\recruiterAIhost\Scripts\Activate.ps1
 
+# Check if the virtual environment is activated
+if (-not $env:VIRTUAL_ENV) {
+    Write-Host "ERROR: Python virtual environment is not activated. Please run the setup script." -ForegroundColor Red
+    exit 1
+}
+
 # Set GEMINI_API_KEY from GEMINI_API_KEY_RECAI
 $env:GEMINI_API_KEY = [System.Environment]::GetEnvironmentVariable('GEMINI_API_KEY_RECAI', 'User')
 
