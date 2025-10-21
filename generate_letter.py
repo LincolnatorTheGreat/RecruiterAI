@@ -27,9 +27,11 @@ def call_gemini(prompt, call_name="AI call", model_name="unknown"):
     start_time = time.time()
     start_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Capture start datetime
     try:
+        input_tokens = model_generate.count_tokens(prompt).total_tokens
         response = model_generate.generate_content(prompt)
+        output_tokens = model_generate.count_tokens(response.text).total_tokens
         duration = time.time() - start_time
-        log_message = f"[{start_datetime}] {call_name} ({model_name}) took {duration:.2f} seconds"
+        log_message = f"[{start_datetime}] {call_name} ({model_name}) took {duration:.2f} seconds, Input Tokens: {input_tokens}, Output Tokens: {output_tokens}"
         print(log_message)
         
         # Ensure the logs directory exists
