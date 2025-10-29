@@ -10,7 +10,7 @@ if [ -z "$VIRTUAL_ENV" ]; then
 fi
 
 # Set GEMINI_API_KEY_RECAI from GEMINI_API_KEY_RECAI
-export GEMINI_API_KEY_RECAI="$GEMINI_API_KEY_RECAI"
+
 
 if [ -z "$GEMINI_API_KEY_RECAI" ]; then
     echo "ERROR: GEMINI_API_KEY_RECAI is not set. Please run the setup script to set it."

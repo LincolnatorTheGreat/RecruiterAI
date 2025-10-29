@@ -3,6 +3,9 @@
 !/logs/
 !/logs/.gitkeep
 
+.env
+.venv/*
+__pycache__/*
 
 /static_assets/*
 /static_assets/system_prompt/*

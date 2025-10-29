@@ -2,8 +2,12 @@ import streamlit as st
 import os
 import shutil
 import datetime
+from dotenv import load_dotenv
+from llm_utils import get_gemini_models, get_openai_models
 from generate_letter import generate_letter
-from file_utils import convert_to_md, move_to_old, get_latest_file, archive_old_letters, process_and_display_files, process_uploaded_file, archive_all_files_in_folder
+from file_utils import convert_to_md, move_to_old, get_latest_file, archive_old_letters, process_and_display_files, process_uploaded_file, archive_all_files_in_folder, get_word_count
+
+load_dotenv()
 
 def load_letters_into_session_state():
     st.session_state.generated_letters = [] # Clear existing letters
@@ -31,8 +35,6 @@ def load_letters_into_session_state():
                 st.session_state.generated_letters.append((filename, letter_content))
             except Exception as e:
                 st.warning(f"Could not read existing letter {filename}: {e}")
-        
-
 
 # Page config
 st.set_page_config(page_title="Recruiter Letter Generator", layout="wide")
@@ -49,6 +51,11 @@ if 'processing_resume_name' not in st.session_state:
     st.session_state.processing_resume_name = None
 if 'processed_upload_ids' not in st.session_state:
     st.session_state.processed_upload_ids = []
+if "RECAI_MODEL_API" not in st.session_state:
+    st.session_state.RECAI_MODEL_API = os.getenv("RECAI_MODEL_API", "gemini")
+if "RECAI_MODEL_ID" not in st.session_state:
+    st.session_state.RECAI_MODEL_ID = os.getenv("RECAI_MODEL_ID", "gemini-2.5-flash")
+
 
 
 # JD Section
@@ -56,7 +63,7 @@ st.subheader("📋 Job Description")
 jd_folder = "candidate_inputs/jd"
 current_jd_files = process_and_display_files(jd_folder, "jd")
 
-jd_file = st.file_uploader("Upload JD (PDF/TXT/DOCX/ODT)", type=['pdf', 'txt', 'docx', 'odt'], key="jd", disabled=st.session_state.generating)
+jd_file = st.file_uploader("Upload JD (PDF/TXT/DOCX/ODT/MD)", type=['pdf', 'txt', 'docx', 'odt', 'md'], key="jd", disabled=st.session_state.generating)
 
 if jd_file:
     file_identifier = (jd_file.name, jd_file.size)
@@ -73,10 +80,11 @@ if jd_file:
 
 if current_jd_files:
     active_jd_path = os.path.join(jd_folder, current_jd_files[0])
+    word_count = get_word_count(active_jd_path)
     
     col_jd_name, col_jd_remove = st.columns([0.8, 0.2])
     with col_jd_name:
-        st.markdown(f"**Current JD:** {current_jd_files[0]}")
+        st.markdown(f"**Current JD:** {current_jd_files[0]} ({word_count} words)")
     with col_jd_remove:
         if st.button("❌ Remove JD", key="remove_current_jd", disabled=st.session_state.generating):
             archive_all_files_in_folder(jd_folder) # Archive all JDs, effectively removing the current one
@@ -163,7 +171,8 @@ if active_resumes:
         col_name, col_button = st.columns([0.8, 0.2])
         with col_name:
             color = "green" if st.session_state.get("processing_resume_name") == f else "red"
-            st.markdown(f"<span style='color:{color}'>{f} (Active)</span>", unsafe_allow_html=True)
+            word_count = get_word_count(os.path.join(active_folder, f))
+            st.markdown(f"<span style='color:{color}'>{f} (Active) ({word_count} words)</span>", unsafe_allow_html=True)
         with col_button:
             if st.button("❌ Remove", key=f"remove_active_{f}", disabled=st.session_state.generating):
                 shutil.move(os.path.join(active_folder, f), os.path.join(resume_folder, "old_files", f))
@@ -181,7 +190,8 @@ if regular_resumes:
     for f in regular_resumes:
         col_name, col_button = st.columns([0.8, 0.2])
         with col_name:
-            st.markdown(f"{f}")
+            word_count = get_word_count(os.path.join(resume_folder, f))
+            st.markdown(f"{f} ({word_count} words)")
         with col_button:
             if st.button("❌ Remove", key=f"remove_regular_{f}", disabled=st.session_state.generating):
                 shutil.move(os.path.join(resume_folder, f), os.path.join(resume_folder, "old_files", f))
@@ -220,56 +230,62 @@ if st.button(generate_label, disabled=st.session_state.generating):
     st.rerun()
 
 if st.session_state.generating:
+    st.write(f"Generating with API: {st.session_state.RECAI_MODEL_API}")
+    st.write(f"Generating with Model: {st.session_state.RECAI_MODEL_ID}")
     with st.spinner("Generating..."):
-        resume_folder = "candidate_inputs/resume"
-        active_folder = os.path.join(resume_folder, "active_resumes")
-        os.makedirs(active_folder, exist_ok=True)
-        
-        active_resumes = [f for f in os.listdir(active_folder) if os.path.isfile(os.path.join(active_folder, f)) and f != '.gitkeep']
-        while len(active_resumes) < 5:
-            regular_resumes = [f for f in os.listdir(resume_folder) if os.path.isfile(os.path.join(resume_folder, f)) and f.endswith('.md') and f != '.gitkeep']
-            if not regular_resumes:
-                break
-            # Most recent
-            latest_regular = max(regular_resumes, key=lambda f: os.path.getmtime(os.path.join(resume_folder, f)))
-            shutil.move(os.path.join(resume_folder, latest_regular), os.path.join(active_folder, latest_regular))
-            active_resumes.append(latest_regular)
-        
-        archive_old_letters()
-        load_letters_into_session_state() # Clear old letters from display (will be reflected on final rerun)
-        
-        for resume in active_resumes:
-            st.session_state.processing_resume_name = resume # Set processing status (will be reflected on final rerun)
-
-            letter = generate_letter(os.path.join(active_folder, resume))
-            if letter and not letter.startswith("An error occurred"):
-                # Extract candidate name from resume filename
-                name = os.path.splitext(os.path.basename(resume))[0]
-                base_name = name
-                dup_count = 1
-                
-                generated_base_names = [fn.split('=')[0] for fn, _ in st.session_state.generated_letters]
-
-                while base_name in generated_base_names:
-                    base_name = f"{name}_{dup_count}"
-                    dup_count += 1
-
-                now = datetime.datetime.now()
-                timestamp = now.strftime("%m%d%Y%H%M")
-                filename = f"{base_name}={timestamp}.txt"
-                
-                output_path = os.path.join("outputs", filename)
-                with open(output_path, 'w', encoding='utf-8') as f:
-                    f.write(letter)
-                
-                load_letters_into_session_state() # Update displayed letters with the new one (will be reflected on final rerun)
-            elif letter:
-                st.error(letter)
+        try:
+            resume_folder = "candidate_inputs/resume"
+            active_folder = os.path.join(resume_folder, "active_resumes")
+            os.makedirs(active_folder, exist_ok=True)
             
-            st.session_state.processing_resume_name = None # Reset processing status (will be reflected on final rerun)
+            active_resumes = [f for f in os.listdir(active_folder) if os.path.isfile(os.path.join(active_folder, f)) and f != '.gitkeep']
+            while len(active_resumes) < 5:
+                regular_resumes = [f for f in os.listdir(resume_folder) if os.path.isfile(os.path.join(resume_folder, f)) and f.endswith('.md') and f != '.gitkeep']
+                if not regular_resumes:
+                    break
+                # Most recent
+                latest_regular = max(regular_resumes, key=lambda f: os.path.getmtime(os.path.join(resume_folder, f)))
+                shutil.move(os.path.join(resume_folder, latest_regular), os.path.join(active_folder, latest_regular))
+                active_resumes.append(latest_regular)
+            
+            archive_old_letters()
+            load_letters_into_session_state() # Clear old letters from display (will be reflected on final rerun)
+            
+            for resume in active_resumes:
+                st.write(f"Processing resume: {resume}")
+                st.session_state.processing_resume_name = resume # Set processing status (will be reflected on final rerun)
 
-        st.session_state.generating = False
-        st.rerun() # Final rerun to update all UI elements
+                letter = generate_letter(os.path.join(active_folder, resume), st.session_state.RECAI_MODEL_API, st.session_state.RECAI_MODEL_ID)
+                st.write(f"Generated letter: {letter[:100] if letter else 'None'}...")
+                if letter and not letter.startswith("An error occurred"):
+                    # Extract candidate name from resume filename
+                    name = os.path.splitext(os.path.basename(resume))[0]
+                    base_name = name
+                    dup_count = 1
+                    
+                    generated_base_names = [fn.split('=')[0] for fn, _ in st.session_state.generated_letters]
+
+                    while base_name in generated_base_names:
+                        base_name = f"{name}_{dup_count}"
+                        dup_count += 1
+
+                    now = datetime.datetime.now()
+                    timestamp = now.strftime("%m%d%Y%H%M")
+                    filename = f"{base_name}={timestamp}.txt"
+                    
+                    output_path = os.path.join("outputs", filename)
+                    with open(output_path, 'w', encoding='utf-8') as f:
+                        f.write(letter)
+                    st.write(f"Saved letter to {output_path}")
+                    
+                    load_letters_into_session_state() # Update displayed letters with the new one (will be reflected on final rerun)
+                elif letter:
+                    st.error(letter)
+                
+                st.session_state.processing_resume_name = None # Reset processing status (will be reflected on final rerun)
+        finally:
+            st.session_state.generating = False
+            st.rerun() # Final rerun to update all UI elements
 
 # Generated letters
 st.markdown("--- ")

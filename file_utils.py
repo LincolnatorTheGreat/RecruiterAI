@@ -128,3 +128,9 @@ def get_tech_library_content():
     for f in files:
         content += read_file(os.path.join(tech_folder, f)) + "\n\n"
     return content.strip()
+
+def get_word_count(file_path):
+    text = read_file(file_path)
+    if text:
+        return len(text.split())
+    return 0

@@ -10,7 +10,13 @@ def display_folder_contents(folder_path, title):
         st.info(f"No files found in {folder_path}")
         return
 
-    files = sorted([f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f != '.gitkeep'])
+    files_with_paths = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f != '.gitkeep']
+    files_with_paths.sort(key=os.path.getmtime, reverse=True)
+
+    if "Old Files" in title:
+        files_with_paths = files_with_paths[:15]
+
+    files = [os.path.basename(f) for f in files_with_paths]
 
     if files:
         for f in files:
